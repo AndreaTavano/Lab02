@@ -1,6 +1,10 @@
+from csv import DictReader
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
     # TODO
+    file = open(file_path, "r", encoding='utf-8')
+    reader = DictReader(file)
+
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
