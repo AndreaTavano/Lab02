@@ -18,8 +18,26 @@ def carica_da_file(file_path):
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
-    # TODO
-
+    foto = {"codice": codice, "titolo": titolo, "autore": autore, "mese": str(mese), "anno": str(anno)} #trasformo in stringhe le variabili mese e anno per omogeneità con i dati nell'album
+    if mese>12 or mese<1: #gestione dell'errore mese non valido
+        print("Errore, mese non valido")
+        return None
+    for annoEsistente in album: #gestione dell'errore file già esistente
+        for fotoEsistente in album[annoEsistente]:
+            if fotoEsistente["codice"]==codice:
+                print("Errore, il codice dev'essere univoco")
+                return None
+    if foto["anno"] not in album:
+        album[foto["anno"]] = []
+    album[foto["anno"]].append(foto)
+    try: #gestione FileNotFoundError
+        file=open(file_path, "a", encoding='utf-8')
+        nuova_riga = f"{codice},{titolo},{autore},{mese},{anno}\n"
+        file.write(nuova_riga)
+        file.close()
+    except FileNotFoundError:
+        return None
+    return foto
 
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
