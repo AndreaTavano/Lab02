@@ -1,11 +1,19 @@
 from csv import DictReader
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
-    # TODO
-    file = open(file_path, "r", encoding='utf-8')
-    reader = DictReader(file)
-
-
+    try:
+        file = open(file_path, "r", encoding='utf-8')
+        reader = DictReader(file, skipinitialspace=True) #implemento skipinitialspace affinche non ci siano problemi con gli spazi
+        album = {}
+        for row in reader:
+            if row["anno"] not in album:
+                album[row["anno"]]=[]
+            album[row["anno"]].append(row)
+        file.close()
+        return album
+    except FileNotFoundError:
+        print("album non trovato, ritenta") #
+        return None
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
