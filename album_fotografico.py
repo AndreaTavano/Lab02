@@ -10,9 +10,10 @@ def carica_da_file(file_path):
                 album[row["anno"]]=[]
             album[row["anno"]].append(row)
         file.close()
+        print(f"{file_path} caricato!")
         return album
     except FileNotFoundError:
-        print("album non trovato, ritenta") #
+        print("album non trovato, ritenta")
         return None
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
