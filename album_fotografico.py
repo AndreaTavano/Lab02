@@ -1,6 +1,9 @@
 from csv import DictReader
+
+
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
+
     try:
         file = open(file_path, "r", encoding='utf-8')
         reader = DictReader(file, skipinitialspace=True) #implemento skipinitialspace affinche non ci siano problemi con gli spazi
@@ -16,8 +19,10 @@ def carica_da_file(file_path):
         print("album non trovato, ritenta")
         return None
 
+
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
+
     foto = {"codice": codice, "titolo": titolo, "autore": autore, "mese": str(mese), "anno": str(anno)} #trasformo in stringhe le variabili mese e anno per omogeneità con i dati nell'album
     if mese>12 or mese<1: #gestione dell'errore mese non valido
         print("Errore, mese non valido")
@@ -39,17 +44,28 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
         return None
     return foto
 
+
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
+
     for anno in album:
         for foto in album[anno]:
             if foto["codice"]==codice:
                 return f"{foto['codice']}, {foto['titolo']}, {foto['autore']}, {foto['mese']}, {foto['anno']}"
     return None #gestitisco l'errore codice inesistente
 
+
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    # TODO
+
+    anno=str(anno) #converto l'intero anno in stringa per compatibilità con i dati dell'album
+    if anno not in album:
+        return None
+    Titoli=[]
+    for foto in album[anno]:
+        Titoli.append(foto["titolo"])
+    Titoli.sort()
+    return Titoli
 
 
 def main():
